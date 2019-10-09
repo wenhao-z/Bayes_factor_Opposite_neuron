@@ -8,7 +8,7 @@ function pdf = vonMisesPdf(x, mu, kappa)
 Idx = (kappa < 700);
 
 % Note that x and mu should be of unit rad!
-pdf = exp(kappa(Idx) .* cos(x-mu));
+pdf = exp(kappa(Idx) .* cos(x(Idx)-mu));
 pdf = pdf./ (2*pi*besseli(0, kappa(Idx)));
 
 % When kappa is too large, the pdf of von Mises distribution will be NaN
@@ -19,3 +19,5 @@ if sum(~Idx) > 0
     pdf2 = pdf2 .* sqrt(kappa(~Idx)) / sqrt(2*pi);
     pdf = cat(ndims(kappa), pdf, pdf2);
 end
+
+pdf = reshape(pdf, size(kappa));
